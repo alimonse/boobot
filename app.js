@@ -331,6 +331,13 @@ function sendToBot(senderID,message)
 
 	request.on('response', function(response) {
     console.log(response);
+	if(response)
+	{
+		if(result){
+			const fulfillment =result.fulfillment;
+			if(fulfillment && fulfillment.speach && fulfillment.speeach.length>0){
+				sendTextMessage(senderID,fulfillment.speach);
+			}				
 	});
 
 	request.on('error', function(error) {
