@@ -356,7 +356,7 @@ function handleMessage(currentUser, senderID, message, isEcho, messageId, appId,
       getUsername(senderID);
     }
     else {
-      sendTextMessage(senderID, messageText);
+      //sendTextMessage(senderID, messageText);
 	  sendToBot(senderID,messageText)
     }
   }
