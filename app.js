@@ -372,28 +372,30 @@ function sendToBot(senderID, message){
 
 request.on('response', function(response) {
     console.log(response);
-	if(response){
+	if (response){
 		const result = response.result;
-		if (result){
+		if(result){
 			const fulfillment = result.fulfillment;
-			if(fulfillment&&fulfillment.speech&&fulfillment.speech.length>0){
-				sendTextMessage(senderID,fulfillment.speech);
+			if( fulfillment && fulfillment.speech && fulfillment.speech.length > 0) {
+			 sendTextMessage(senderID, fulfillment.speech);
 			}
 			else {
 				const action = result.action;
 				const parameters = result.parameters;
-				console.log('action: ', action);
-				console.log('parameters: ',parameters);
+				console.log('action', action);
+				console.log('parameters: ', parameters);
 				switch(action){
 					case 'account.balance':
-					sendTextMessage(senderID,'get account balance');
+					sendTextMessage(senderID, 'get account balance');
 					break;
 					case 'account.movement':
-					sendTextMessage(senderID,'get account movement');
+					sendTextMessage(senderID, 'get account movement');
 					break;
 					default:
-					console.log('unknown action...');
+					console.log ('unknown action ...');
 					break;
+				}
+			}
 		}
 	}
 });
@@ -403,7 +405,6 @@ request.on('error', function(error) {
 });
 
 request.end();
-
 }
 
 function showMenu(senderID) {
