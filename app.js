@@ -380,7 +380,7 @@ request.on('response', function(response) {
 				sendTextMessage(senderID,fulfillment.speech);
 			}
 			else {
-				const action = result.action;;
+				const action = result.action;
 				const parameters = result.parameters;
 				console.log('action: ', action);
 				console.log('parameters: ',parameters);
