@@ -323,30 +323,71 @@ function handleMessage(currentUser, senderID, message, isEcho, messageId, appId,
   }
 }
 
-function sendToBot(senderID,message)
-{
+function handleMessage(currentUser, senderID, message, isEcho, messageId, appId, metadata) {
+  console.log("currentUser: ");
+  console.log(currentUser);
+  var currentName = currentUser ? (currentUser.firstName ? currentUser.firstName : 'humano') : 'humano ';
+
+  // You may get a text or attachment but not both
+  var messageText = message.text;
+  var messageAttachments = message.attachments;
+  var quickReply = message.quick_reply;
+
+  if (isEcho) {
+    // Just logging message echoes to console
+    console.log("Received echo for message %s and app %d with metadata %s",
+      messageId, appId, metadata);
+    return;
+  } else if (quickReply) {
+    var quickReplyPayload = quickReply.payload;
+    console.log("Quick reply for message %s with payload %s",
+      messageId, quickReplyPayload);
+
+    sendTextMessage(senderID, "Quick reply tapped");
+    return;
+  }
+
+  if (messageText) {
+
+    if (messageText.toLowerCase() == 'hola' ||
+      messageText.toLowerCase() == 'hey' ||
+      messageText.toLowerCase() == 'hi') {
+
+      getUsername(senderID);
+    }
+    else {
+      sendTextMessage(senderID, messageText);
+	  sendToBot(senderID,messageText)
+    }
+  }
+  else if (messageAttachments) {
+    sendTextMessage(senderID, "Message with attachment received");
+  }
+}
+
+function sendToBot(senderID, message){
 	var request = bot.textRequest(message, {
-    sessionId: senderID '<unique session id>'
-	});
+    sessionId: senderID
+});
 
-	request.on('response', function(response) {
+request.on('response', function(response) {
     console.log(response);
-	if(response)
-	{
-		if(result){
-			const fulfillment =result.fulfillment;
-			if(fulfillment && fulfillment.speach && fulfillment.speeach.length>0){
-				sendTextMessage(senderID,fulfillment.speach);
-			}				
-	});
+	if(response){
+		const result = response.result;
+		if (result){
+			const fulfillment = result.fulfillment;
+			if(fulfilment&&fulfillment.speech&&fulfillment.speech.length>0){
+				sendTextMessage(senderID,fulfillment.speech);
+			}
+		}
+	}
+});
 
-	request.on('error', function(error) {
+request.on('error', function(error) {
     console.log(error);
 });
 
 request.end();
-
-
 
 }
 
