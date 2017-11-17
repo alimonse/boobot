@@ -386,6 +386,7 @@ request.on('response', function(response) {
 				console.log('parameters: ',parameters);
 				switch(action){
 					case 'account.balance':
+					console.log("BALANCE");
 					sendTextMessage(senderID,'get account balance');
 					break;
 					case 'account.movement':
